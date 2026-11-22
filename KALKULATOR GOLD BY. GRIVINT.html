@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KALKULATOR GOLD BY. GRIVINT</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#000000;--card:#14141a;--card2:#1c1c24;--line:#2a2a35;
+  --gold:#f5c542;--gold2:#ffdf7a;--green:#00ff88;--red:#ff3b5c;--purple:#bf5fff;--text:#ffffff;--mut:#9a9aa8;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh;
+  background-image:radial-gradient(900px 500px at 50% -10%,rgba(245,197,66,.12),transparent 60%),radial-gradient(600px 400px at 100% 100%,rgba(191,95,255,.08),transparent 60%)}
+.orb{font-family:Orbitron,Inter,system-ui,sans-serif}
+/* Splash */
+#splash{position:fixed;inset:0;z-index:100;background:#000;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;transition:opacity .6s,visibility .6s}
+#splash.hide{opacity:0;visibility:hidden}
+#splash h1{font-size:clamp(24px,7vw,52px);margin:0;color:var(--gold);letter-spacing:3px;opacity:0;animation:splashIn 2s ease forwards}
+@keyframes splashIn{0%{opacity:0;transform:scale(.6);text-shadow:0 0 0 transparent}45%{opacity:1;transform:scale(1);text-shadow:0 0 30px rgba(245,197,66,.9),0 0 70px rgba(245,197,66,.5)}100%{opacity:1;transform:scale(1.12);text-shadow:0 0 45px rgba(245,197,66,1),0 0 100px rgba(245,197,66,.6)}}
+/* Layout */
+.wrap{max-width:760px;margin:0 auto;padding:22px 16px 40px}
+header{text-align:center;margin-bottom:22px;animation:fadeUp .7s ease both}
+.brand{display:inline-block;font-weight:900;font-size:15px;letter-spacing:4px;color:var(--purple);padding:6px 18px;border:1px solid rgba(191,95,255,.5);border-radius:999px;background:rgba(191,95,255,.08);text-shadow:0 0 10px var(--purple),0 0 24px var(--purple);box-shadow:0 0 18px rgba(191,95,255,.35);margin-bottom:14px}
+h1.title{margin:0;font-size:clamp(22px,6vw,38px);color:var(--gold);text-shadow:0 0 22px rgba(245,197,66,.45);letter-spacing:1.5px}
+.sub{margin:8px 0 0;color:var(--mut);font-size:14px;letter-spacing:.5px}
+.tt{display:inline-block;margin-top:10px;font-size:13px;font-weight:700;letter-spacing:1px;color:var(--text);padding:5px 14px;border-radius:999px;border:1px solid var(--line);background:#0a0a0e}
+.tt span{color:var(--gold)}
+.card{background:linear-gradient(160deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:22px;padding:20px;margin-bottom:18px;box-shadow:0 0 0 1px rgba(245,197,66,.04),0 10px 40px rgba(0,0,0,.6),0 0 40px rgba(245,197,66,.06);animation:fadeUp .7s ease both;transition:box-shadow .3s,border-color .3s}
+.card:hover{border-color:rgba(245,197,66,.35);box-shadow:0 10px 40px rgba(0,0,0,.6),0 0 40px rgba(245,197,66,.14)}
+.lbl{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--gold);margin:0 0 10px;text-transform:uppercase}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+input[type=text]{width:100%;padding:16px 18px;border-radius:16px;border:1px solid var(--line);background:#0a0a0e;color:var(--text);font-size:22px;font-weight:700;outline:none;transition:.25s;text-align:center}
+input[type=text]::placeholder{font-size:15px;font-weight:400;color:#5d5d6b}
+input[type=text]:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(245,197,66,.15),0 0 24px rgba(245,197,66,.25)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mode{padding:16px 10px;border-radius:16px;border:1px solid var(--line);background:#0a0a0e;color:var(--mut);font-weight:900;letter-spacing:2px;font-size:15px;cursor:pointer;transition:.25s;font-family:Orbitron,Inter,sans-serif}
+.mode:hover{transform:translateY(-2px);border-color:#444}
+.mode.on.res{background:rgba(0,255,136,.12);border-color:var(--green);color:var(--green);box-shadow:0 0 24px rgba(0,255,136,.4)}
+.mode.on.sup{background:rgba(255,59,92,.12);border-color:var(--red);color:var(--red);box-shadow:0 0 24px rgba(255,59,92,.4)}
+.strat{text-align:left;padding:14px;border-radius:16px;border:1px solid var(--line);background:#0a0a0e;color:var(--text);cursor:pointer;transition:.25s;font-family:inherit}
+.strat:hover{transform:translateY(-2px);border-color:rgba(245,197,66,.5)}
+.strat.on{border-color:var(--gold);background:rgba(245,197,66,.09);box-shadow:0 0 24px rgba(245,197,66,.35)}
+.strat b{display:block;font-family:Orbitron,Inter,sans-serif;font-size:14px;color:var(--gold);letter-spacing:1.5px;margin-bottom:6px}
+.strat small{display:block;color:var(--mut);font-size:12px;line-height:1.55}
+.strat em{font-style:normal;color:var(--text);font-weight:600}
+.go{width:100%;padding:19px;border:none;border-radius:18px;cursor:pointer;font-family:Orbitron,Inter,sans-serif;font-weight:900;font-size:18px;letter-spacing:3px;color:#1a1200;background:linear-gradient(135deg,var(--gold2),var(--gold) 55%,#d99a00);box-shadow:0 0 28px rgba(245,197,66,.55),0 8px 24px rgba(0,0,0,.5);transition:.25s;position:relative;overflow:hidden}
+.go:hover{transform:translateY(-3px) scale(1.01);box-shadow:0 0 45px rgba(245,197,66,.85),0 12px 30px rgba(0,0,0,.5)}
+.go:active{transform:scale(.98)}
+.go::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);animation:shine 3s infinite}
+@keyframes shine{0%{left:-60%}60%,100%{left:130%}}
+.sec{display:flex;gap:10px;margin-top:12px}
+.btn2{flex:1;padding:13px;border-radius:14px;border:1px solid var(--line);background:#0a0a0e;color:var(--text);font-weight:700;cursor:pointer;transition:.25s;font-size:14px;font-family:inherit}
+.btn2:hover{border-color:var(--gold);color:var(--gold);box-shadow:0 0 18px rgba(245,197,66,.25)}
+/* Loader */
+#loader{display:none;text-align:center;padding:28px 0}
+.spin{width:46px;height:46px;border-radius:50%;border:4px solid #26262e;border-top-color:var(--gold);margin:0 auto 12px;animation:sp .8s linear infinite;box-shadow:0 0 18px rgba(245,197,66,.4)}
+@keyframes sp{to{transform:rotate(360deg)}}
+/* Results */
+#result{display:none}
+.rhead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.chip{font-size:12px;color:var(--mut);padding:5px 12px;border:1px solid var(--line);border-radius:999px;background:#0a0a0e}
+.item{border-radius:16px;padding:16px;margin-bottom:12px;background:#0a0a0e;border:1px solid var(--line);border-left-width:4px;animation:pop .5s ease both}
+.item.buy{border-left-color:var(--green);box-shadow:0 0 20px rgba(0,255,136,.12)}
+.item.sell{border-left-color:var(--red);box-shadow:0 0 20px rgba(255,59,92,.12)}
+.item .sig{font-family:Orbitron,Inter,sans-serif;font-weight:900;font-size:clamp(20px,5.5vw,28px);letter-spacing:1px}
+.buy .sig{color:var(--green);text-shadow:0 0 14px rgba(0,255,136,.55)}
+.sell .sig{color:var(--red);text-shadow:0 0 14px rgba(255,59,92,.55)}
+.item .tpl{color:var(--mut);font-size:12px;letter-spacing:1.5px;margin-top:10px;text-transform:uppercase}
+.item .tpv{color:var(--gold);font-weight:700;font-size:17px;margin-top:2px}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+/* History */
+.h{padding:12px 14px;border-radius:14px;background:#0a0a0e;border:1px solid var(--line);margin-bottom:10px;font-size:13px}
+.h .top{display:flex;justify-content:space-between;color:var(--mut);font-size:11px;margin-bottom:6px;gap:8px}
+.h .lv{font-weight:700;line-height:1.6}
+.h .lv.buy{color:var(--green)}.h .lv.sell{color:var(--red)}
+.empty{color:#5d5d6b;text-align:center;font-size:13px;padding:10px}
+/* Modal */
+#modal{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.82);display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
+#modal.show{display:flex}
+.box{width:100%;max-width:400px;background:linear-gradient(160deg,#17171e,#0c0c10);border:1px solid var(--gold);border-radius:24px;padding:26px 22px;text-align:center;box-shadow:0 0 50px rgba(245,197,66,.35);animation:pop .4s ease both}
+.box h2{font-size:18px;color:var(--gold);margin:0 0 12px;letter-spacing:2px;text-shadow:0 0 14px rgba(245,197,66,.5)}
+.box p{color:var(--mut);font-size:14px;line-height:1.6;margin:6px 0}
+.box .price{font-family:Orbitron,Inter,sans-serif;color:var(--green);font-size:22px;font-weight:900;margin:10px 0;text-shadow:0 0 12px rgba(0,255,136,.5)}
+.wa{display:block;text-decoration:none;margin:14px 0 10px;padding:14px;border-radius:14px;background:#25d366;color:#04210f;font-weight:900;font-size:14px;box-shadow:0 0 22px rgba(37,211,102,.45)}
+.err{color:var(--red);font-size:13px;min-height:18px;margin:6px 0}
+.shake{animation:shk .4s}
+@keyframes shk{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:#17171e;border:1px solid var(--gold);color:var(--text);padding:12px 22px;border-radius:999px;font-size:14px;opacity:0;transition:.35s;z-index:120;box-shadow:0 0 24px rgba(245,197,66,.35);pointer-events:none;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+footer{text-align:center;margin-top:26px;color:var(--mut);font-size:12px;letter-spacing:2px}
+footer b{display:block;color:var(--gold);font-family:Orbitron,Inter,sans-serif;font-size:13px;margin-top:6px;text-shadow:0 0 12px rgba(245,197,66,.5)}
+@media(max-width:420px){.strat{padding:12px}.strat small{font-size:11px}}
+</style>
+</head>
+<body>
+
+<div id="splash"><h1 class="orb">KALKULATOR<br>BY. GRIVINT</h1></div>
+
+<div class="wrap">
+  <header>
+    <div class="brand orb">GrivintFx</div>
+    <h1 class="title orb">KALKULATOR GOLD BY. GRIVINT</h1>
+    <div class="tt">TikTok: <span>vint0707</span></div>
+    <p class="sub">Smart Entry Zone Calculator XAUUSD</p>
+  </header>
+
+  <div class="card">
+    <p class="lbl">Harga XAUUSD</p>
+    <input type="text" id="price" inputmode="decimal" autocomplete="off" placeholder="Masukkan Harga XAUUSD">
+  </div>
+
+  <div class="card">
+    <p class="lbl">Mode</p>
+    <div class="row">
+      <button class="mode res" id="mRes" data-mode="res">RESISTANCE</button>
+      <button class="mode sup" id="mSup" data-mode="sup">SUPPORT</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="lbl">Strategi</p>
+    <div class="row" id="strats"></div>
+  </div>
+
+  <button class="go" id="go">HITUNG ZONA</button>
+  <div class="sec"><button class="btn2" id="reset">⟲ Reset</button></div>
+
+  <div id="loader" class="card" style="margin-top:18px"><div class="spin"></div><div style="color:var(--gold);font-size:13px;letter-spacing:2px">MENGHITUNG ZONA...</div></div>
+
+  <div id="result" class="card" style="margin-top:18px">
+    <div class="rhead"><p class="lbl" style="margin:0">Hasil Zona</p><span class="chip" id="meta"></span></div>
+    <div id="items"></div>
+    <button class="btn2" id="copy" style="width:100%">⧉ Copy Hasil</button>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <div class="rhead"><p class="lbl" style="margin:0">History</p><button class="btn2" id="clearH" style="flex:none;padding:8px 14px;font-size:12px">Hapus</button></div>
+    <div id="hist"></div>
+  </div>
+
+  <footer>Powered by<b>GRIVINT TRADING SYSTEM</b></footer>
+</div>
+
+<div id="modal">
+  <div class="box" id="box">
+    <h2 class="orb">AKSES PREMIUM DIPERLUKAN</h2>
+    <p>Minta kode premium melalui WhatsApp:</p>
+    <p style="color:var(--text);font-weight:700;font-size:16px">083171992339</p>
+    <a class="wa" href="https://wa.me/6283171992339?text=Halo%2C%20saya%20mau%20minta%20kode%20premium%20Kalkulator%20Gold%20Grivint" target="_blank" rel="noopener">MINTA KODE VIA WHATSAPP</a>
+    <input type="text" id="code" placeholder="Masukkan kode premium" inputmode="numeric" style="font-size:18px;padding:13px">
+    <div class="err" id="err"></div>
+    <div class="sec"><button class="btn2" id="cancel">Batal</button><button class="btn2" id="unlock" style="border-color:var(--gold);color:var(--gold)">Aktifkan</button></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+(function(){
+  var CODE="0718";
+  var STR={
+    scalping:{name:"SCALPING",tf:"M1 - M15",desc:"Entry cepat untuk scalping.",tp:"40 - 70 Pips",off:[0.10,0.13,0.15,0.17]},
+    intraday:{name:"INTRADAY",tf:"M15 - H1",desc:"Entry harian.",tp:"80 - 150 Pips",off:[0.20,0.25,0.30,0.35]},
+    swing:{name:"SWING",tf:"H4 - D1",desc:"Trend besar.",tp:"200 - 500 Pips",off:[0.50,0.70,1.00,1.30]},
+    position:{name:"POSITION",tf:"D1 - Weekly",desc:"Long Trend.",tp:"500 - 1500 Pips",off:[1.50,2.00,3.00,5.00]}
+  };
+  var $=function(id){return document.getElementById(id)};
+  var mode=null,strat=null,last=null,busy=false;
+
+  function sget(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+  function sset(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+  function getHist(){try{return JSON.parse(sget("gv_hist","[]"))||[]}catch(e){return[]}}
+
+  function toast(m){var t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},2200)}
+
+  // Splash
+  setTimeout(function(){$("splash").classList.add("hide")},2000);
+
+  // Strategy buttons
+  var sb=$("strats");
+  Object.keys(STR).forEach(function(k){
+    var s=STR[k],b=document.createElement("button");
+    b.className="strat";b.dataset.k=k;
+    b.innerHTML="<b>"+s.name+"</b><small>Timeframe:<br><em>"+s.tf+"</em></small><small style='margin-top:6px'>"+s.desc+"</small><small style='margin-top:6px'>Target TP:<br><em style='color:var(--gold)'>"+s.tp+"</em></small>";
+    b.onclick=function(){strat=k;[].forEach.call(sb.children,function(c){c.classList.toggle("on",c===b)})};
+    sb.appendChild(b);
+  });
+
+  // Mode buttons
+  [$("mRes"),$("mSup")].forEach(function(b){
+    b.onclick=function(){mode=b.dataset.mode;$("mRes").classList.toggle("on",mode==="res");$("mSup").classList.toggle("on",mode==="sup")};
+  });
+
+  function compute(p,m,s){
+    var sq=Math.sqrt(p);
+    return STR[s].off.map(function(o){
+      return m==="res"?Math.floor(Math.pow(sq-o,2)):Math.floor(Math.pow(sq+o,2));
+    });
+  }
+
+  function esc(s){return String(s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})}
+
+  function render(d){
+    var type=d.mode==="res"?"BUY LIMIT":"SELL LIMIT",cls=d.mode==="res"?"buy":"sell";
+    $("meta").textContent=(d.mode==="res"?"Resistance":"Support")+" • "+STR[d.strat].name+" • "+d.price;
+    $("items").innerHTML=d.levels.map(function(v,i){
+      return '<div class="item '+cls+'" style="animation-delay:'+(i*0.12)+'s"><div class="sig">'+type+' '+v+'</div><div class="tpl">Take Profit</div><div class="tpv">'+STR[d.strat].tp+'</div></div>';
+    }).join("");
+    $("result").style.display="block";
+    last=d;
+  }
+
+  function renderHist(){
+    var h=getHist(),el=$("hist");
+    if(!h.length){el.innerHTML='<div class="empty">Belum ada history.</div>';return}
+    el.innerHTML=h.map(function(d){
+      var type=d.mode==="res"?"BUY LIMIT":"SELL LIMIT",cls=d.mode==="res"?"buy":"sell";
+      return '<div class="h"><div class="top"><span>'+esc(new Date(d.t).toLocaleString("id-ID"))+'</span><span>'+esc(STR[d.strat].name)+' • '+esc(d.price)+'</span></div><div class="lv '+cls+'">'+d.levels.map(function(v){return type+' '+v}).join('<br>')+'</div></div>';
+    }).join("");
+  }
+
+  function isPremium(){return sget("gv_premium","0")==="1"}
+  function count(){return parseInt(sget("gv_count","0"),10)||0}
+
+  function run(p){
+    busy=true;
+    $("result").style.display="none";$("loader").style.display="block";
+    setTimeout(function(){
+      $("loader").style.display="none";
+      var d={t:Date.now(),price:p,mode:mode,strat:strat,levels:compute(p,mode,strat)};
+      render(d);
+      var h=getHist();h.unshift(d);sset("gv_hist",JSON.stringify(h.slice(0,30)));
+      sset("gv_count",String(count()+1));
+      renderHist();busy=false;
+      $("result").scrollIntoView({behavior:"smooth",block:"start"});
+    },1000);
+  }
+
+  $("go").onclick=function(){
+    if(busy)return;
+    var raw=$("price").value.trim().replace(",",".");
+    var p=parseFloat(raw);
+    if(!raw||isNaN(p)||p<=0){toast("Masukkan harga XAUUSD yang valid");$("price").classList.add("shake");setTimeout(function(){$("price").classList.remove("shake")},450);return}
+    if(!mode){toast("Pilih mode: Resistance atau Support");return}
+    if(!strat){toast("Pilih salah satu strategi");return}
+    if(!isPremium()&&count()>=1){$("err").textContent="";$("code").value="";$("modal").classList.add("show");return}
+    run(p);
+  };
+
+  $("unlock").onclick=function(){
+    if($("code").value.trim()===CODE){
+      sset("gv_premium","1");$("modal").classList.remove("show");toast("Premium aktif ✓");$("go").click();
+    }else{
+      $("err").textContent="Kode salah. Silakan coba lagi.";$("box").classList.add("shake");setTimeout(function(){$("box").classList.remove("shake")},450);
+    }
+  };
+  $("cancel").onclick=function(){$("modal").classList.remove("show")};
+  $("code").addEventListener("keydown",function(e){if(e.key==="Enter")$("unlock").click()});
+  $("price").addEventListener("keydown",function(e){if(e.key==="Enter")$("go").click()});
+
+  $("copy").onclick=function(){
+    if(!last)return;
+    var type=last.mode==="res"?"BUY LIMIT":"SELL LIMIT";
+    var txt=last.levels.map(function(v){return type+" "+v+"\nTake Profit\n"+STR[last.strat].tp}).join("\n\n");
+    function ok(){toast("Hasil disalin ✓")}
+    function fb(){var a=document.createElement("textarea");a.value=txt;a.style.position="fixed";a.style.opacity="0";document.body.appendChild(a);a.select();try{document.execCommand("copy");ok()}catch(e){toast("Gagal menyalin")}document.body.removeChild(a)}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(ok,fb)}else fb();
+  };
+
+  $("reset").onclick=function(){
+    $("price").value="";mode=null;strat=null;last=null;
+    $("mRes").classList.remove("on");$("mSup").classList.remove("on");
+    [].forEach.call(sb.children,function(c){c.classList.remove("on")});
+    $("result").style.display="none";$("loader").style.display="none";busy=false;toast("Reset berhasil");
+  };
+
+  $("clearH").onclick=function(){sset("gv_hist","[]");renderHist();toast("History dihapus")};
+
+  renderHist();
+})();
+</script>
+</body>
+</html>
